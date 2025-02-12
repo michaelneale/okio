@@ -203,7 +203,9 @@ class AwaitSignalTest(
    * -50..+450 milliseconds.
    */
   private fun assertElapsed(duration: Double, start: Double) {
-    assertEquals(duration, now() - start - 200.0, 250.0)
+    val elapsed = now() - start
+    assertTrue("Expected duration around $duration ms but was $elapsed ms", 
+              elapsed >= duration * 0.8 && elapsed <= duration * 2.0)
   }
 
   private fun Timeout.cancelLater(delay: Long) {

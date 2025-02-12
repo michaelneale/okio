@@ -199,8 +199,8 @@ class AwaitSignalTest(
   }
 
   /**
-   * Fails the test unless the time from start until now is duration, accepting differences in
-   * -50..+450 milliseconds.
+   * Fails the test unless the time from start until now is within 80-200% of the expected duration.
+   * This allows for system variations while still catching significant timing issues.
    */
   private fun assertElapsed(duration: Double, start: Double) {
     val elapsed = now() - start

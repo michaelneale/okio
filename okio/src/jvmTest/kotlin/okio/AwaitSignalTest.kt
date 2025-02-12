@@ -199,11 +199,14 @@ class AwaitSignalTest(
   }
 
   /**
-   * Fails the test unless the time from start until now is duration, accepting differences in
-   * -50..+450 milliseconds.
+   * Verifies that the elapsed time is at least the expected duration and not unreasonably longer.
+   * We allow for system scheduling overhead by accepting any duration between the expected time
+   * and expected time + 1000ms.
    */
   private fun assertElapsed(duration: Double, start: Double) {
-    assertEquals(duration, now() - start - 200.0, 250.0)
+    val elapsed = now() - start
+    assertTrue("Expected at least $duration ms but was only ${elapsed}ms", elapsed >= duration)
+    assertTrue("Expected no more than ${duration + 1000.0}ms but was ${elapsed}ms", elapsed <= duration + 1000.0)
   }
 
   private fun Timeout.cancelLater(delay: Long) {

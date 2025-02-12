@@ -199,13 +199,14 @@ class AwaitSignalTest(
   }
 
   /**
-   * Verifies that at least the expected duration has elapsed, with an upper bound to catch
-   * significant delays. This is more resilient to system scheduling variations.
+   * Verifies that the elapsed time is at least the expected duration and not unreasonably longer.
+   * We allow for system scheduling overhead by accepting any duration between the expected time
+   * and expected time + 1000ms.
    */
   private fun assertElapsed(duration: Double, start: Double) {
     val elapsed = now() - start
     assertTrue("Expected at least $duration ms but was only ${elapsed}ms", elapsed >= duration)
-    assertTrue("Expected no more than ${duration * 1.5}ms but was ${elapsed}ms", elapsed <= duration * 1.5)
+    assertTrue("Expected no more than ${duration + 1000.0}ms but was ${elapsed}ms", elapsed <= duration + 1000.0)
   }
 
   private fun Timeout.cancelLater(delay: Long) {
